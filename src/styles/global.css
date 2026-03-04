@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+@theme {
+  /* base */
+  --color-bg: #0f1115;
+  --color-surface: #171a21;
+  --color-surface-soft: #1f2430;
+
+  /* text */
+  --color-text: #e6e9ef;
+  --color-text-muted: #9aa3b2;
+
+  /* accents */
+  --color-accent: #ff7a3d;
+  --color-accent-soft: #ffb38a;
+  --color-accent-muted: #cc6232;
+
+  /* secondary accent (film / teal shadows) */
+  --color-secondary: #4fa3a5;
+  --color-secondary-soft: #7cc7c9;
+
+  /* borders */
+  --color-border: #2a2f3a;
+  --color-border-soft: #20242d;
+
+  /* states */
+  --color-success: #6ecb8b;
+  --color-warning: #f2b84b;
+  --color-danger: #ef6b6b;
+
+  /* fonts */
+  --font-warbler-display: warbler-display, sans-serif;
+  --font-warbler-text: warbler-text, sans-serif;
+  --font-cesso: cesso, sans-serif;
+  --font-gunter: gunter, sans-serif;
+}
+
+body{
+   font-family: proxima-nova, sans-serif;
+   @apply bg-bg text-text;
+}
+
+@utility card-style{
+  @apply bg-surface-soft border border-border text-text p-4
+}
+@utility card-style-darker{
+  @apply bg-surface border border-border-soft text-text p-4
+}
+
+.btn-primary{
+  @apply bg-accent text-bg px-3 py-1 inline-block text-lg transition-colors
+  hover:bg-accent-muted rounded-md
+}
+
+.btn-secondary{
+  @apply bg-accent-soft text-bg px-3 py-1 inline-block text-lg transition-colors
+  hover:bg-accent-muted rounded-md
+}

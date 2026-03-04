@@ -1,0 +1,21 @@
+---
+import socials from '../data/socials.json';
+const socialList = Object.values(socials);
+
+---
+<ul class="flex text-2xl gap-2">
+    {socialList.map((social) => (
+        <li>
+            <a href={social.link} target="_blank" rel="noopener noreferrer">
+                <i class={social.icon}></i>
+            </a>
+        </li>
+    ))}
+</ul>
+
+<style>
+    @reference '../styles/global.css';
+    a:hover{
+        @apply text-accent transition-colors
+    }
+</style>
