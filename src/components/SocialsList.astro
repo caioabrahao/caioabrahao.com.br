@@ -3,7 +3,7 @@ import socials from '../data/socials.json';
 const socialList = Object.values(socials);
 
 ---
-<ul class="flex text-2xl gap-2">
+<ul class="flex text-2xl gap-2 xl:text-2xl">
     {socialList.map((social) => (
         <li>
             <a href={social.link} target="_blank" rel="noopener noreferrer">
