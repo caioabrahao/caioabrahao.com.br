@@ -1,7 +1,7 @@
-<script>
+<script setup>
 import '../../styles/global.css';
 import 'remixicon/fonts/remixicon.css';
-import ImageUpload from '../../components/ImageUpload.astro';
+import ImageUpload from './ImageUpload.vue';
 </script>
 
 <template>
@@ -17,7 +17,7 @@ import ImageUpload from '../../components/ImageUpload.astro';
             <h3>Enviar Fotos</h3>
             <p>Envie fotos para o bucket da Cloudflare</p>
             <div class="mt-8 p-2 border border-accent rounded-md flex flex-col gap-4">
-                <ImageUpload />
+                <ImageUpload/>
             </div>
         </div>
         <div class="dash-card col-span-2">
