@@ -47,14 +47,20 @@ body{
   @apply bg-surface border border-border-soft text-text p-4
 }
 
-.btn-primary{
+@utility btn-primary{
   @apply bg-accent text-bg px-3 py-1 inline-block text-lg transition-colors
   hover:bg-accent-muted rounded-md
   2xl:text-xl 2xl:px-4 2xl:py-2
 }
 
-.btn-secondary{
+@utility btn-secondary{
   @apply bg-accent-soft text-bg px-3 py-1 inline-block text-lg transition-colors
   hover:bg-accent-muted rounded-md
-  xl:text-xl xl:px-4 xl:py-2
+  2xl:text-2xl 2xl:px-4 2xl:py-2
+}
+
+@utility btn-soft{
+  @apply bg-surface text-text-muted px-3 py-1 inline-block text-lg transition-colors
+  hover:bg-surface-soft rounded-md
+  2xl:text-2xl 2xl:px-4 2xl:py-2
 }

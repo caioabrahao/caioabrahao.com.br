@@ -4,51 +4,91 @@ import 'remixicon/fonts/remixicon.css';
 
 const className = Astro.props;
 ---
-<h1>Envie uma Imagem</h1>
 <div>
-    <label for=""></label>
-    <input class="" type="file" id="fileInput" accept="image/webp, image/jpg" />
-    <button class="btn-primary" id="uploadBtn">Enviar</button>
+    <!-- <label for="fileInput">Selecionar Imagem</label> -->
+    <input class="file-input text-text-muted" type="file" id="fileInput" multiple accept="image/webp, image/jpg, image/png" />
+    <button class="btn-primary mt-2" id="uploadBtn">Enviar</button>
 
     <div id="status"></div>
-    <img id="preview" src="" alt="" style="display:none; max-width: 400px; margin-top: 1rem;" />
+    <div id="previews" class="scrollbar mt-4 grid grid-cols-3 gap-2 max-h-64 overflow-auto">
+        <p>Preview das Imagens:</p>
+    </div>
 </div>
+
+<style>
+    @reference '../styles/global.css';
+
+    .file-input::file-selector-button{
+        @apply btn-soft
+    }
+    .file-input::file-selector-button:hover{
+        @apply bg-accent-muted
+    }
+
+    .scrollbar{
+        scrollbar-color: var(--color-bg) rgba(0, 0, 0, 0); /* Thumb color, Track color */
+    }
+</style>
 
 
 <script>
     const input = document.getElementById("fileInput") as HTMLInputElement | null;
     const btn = document.getElementById("uploadBtn") as HTMLButtonElement | null;
     const status = document.getElementById("status");
-    const preview = document.getElementById("preview") as HTMLImageElement | null;
+    const previews = document.getElementById("previews") as HTMLImageElement | null;
 
-    if (!input || !btn || !status || !preview) {
+    if (!input || !btn || !status || !previews) {
     throw new Error("Upload UI elements not found.");
     }
-    btn.addEventListener("click", async () => {
-    const file = input.files?.[0];
-    if (!file) return (status.textContent = "Please select a file first.");
 
-    status.textContent = "Uploading...";
+    btn.addEventListener("click", async () => {
+    const files = Array.from(input.files ?? []);
+    if (!files.length) return (status.textContent = "Escolha pelo menos um arquivo primeiro...");
+
+    // const file = files[0]; <(!)Apagar dps? 
+    status.textContent = "Enviando...";
 
     // Build FormData — this matches what our API route expects
     const formData = new FormData();
-    formData.append("file", file);
+    for (const file of files) {
+    formData.append("files", file); // same key each time
+    }
 
     const res = await fetch("/api/upload", {
         method: "POST",
         body: formData,
-        // Don't set Content-Type — the browser sets it automatically
-        // with the correct multipart boundary
     });
-
     const data = await res.json();
 
-    if (res.ok) {
-        status.textContent = `✅ Uploaded! URL: ${data.url}`;
-        preview.src = data.url;
-        preview.style.display = "block";
-    } else {
-        status.textContent = `❌ Error: ${data.error}`;
-    }
+    status.textContent = res.ok
+    ? `✅ Uploaded ${data.uploads.length} file(s)`
+    : `❌ ${data.error}`;
     });
+
+    // Show previews of all selected files >>>
+    input.addEventListener("change", () => {
+        const newFiles = input.files;
+        if (!newFiles?.length) {
+            previews.innerHTML = "";
+            return;
+        }
+
+        previews.innerHTML = "";
+        for (const file of newFiles) {
+            // createObjectURL makes a temporary local URL pointing to the file
+            // in memory — instant, nothing is uploaded yet
+            const url = URL.createObjectURL(file);
+
+            const img = document.createElement("img");
+            img.src = url;
+            img.alt = file.name;
+            img.className = "object-cover aspect-square"; //style the images here!
+
+            // Optional: free the memory once the image has loaded
+            img.onload = () => URL.revokeObjectURL(url);
+
+            previews.appendChild(img);
+        }
+    });
+    // Show previews of all selected files <<<
 </script>
