@@ -9,9 +9,14 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1002.0",
     "@tailwindcss/vite": "^4.2.1",
     "astro": "^5.17.1",
     "remixicon": "^4.9.1",
     "tailwindcss": "^4.2.1"
+  },
+  "devDependencies": {
+    "@astrojs/cloudflare": "^12.6.12",
+    "@types/node": "^25.3.3"
   }
 }
