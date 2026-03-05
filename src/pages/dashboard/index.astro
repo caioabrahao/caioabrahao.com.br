@@ -2,7 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import '../../styles/global.css';
 import 'remixicon/fonts/remixicon.css';
-
+import ImageUpload from '../../components/ImageUpload.astro';
 ---
 <Layout>
     <section class="h-screen flex flex-col">
@@ -16,6 +16,9 @@ import 'remixicon/fonts/remixicon.css';
             <div class="dash-card row-span-3">
                 <h3>Enviar Fotos</h3>
                 <p>Envie fotos para o bucket da Cloudflare</p>
+                <div class="mt-8 p-2 border border-accent rounded-md">
+                    <ImageUpload />
+                </div>
             </div>
             <div class="dash-card col-span-2">
                 <h3>Fotos Enviadas</h3>

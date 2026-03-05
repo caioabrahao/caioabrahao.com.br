@@ -1,0 +1,54 @@
+---
+import '../styles/global.css';
+import 'remixicon/fonts/remixicon.css';
+
+const className = Astro.props;
+---
+<h1>Envie uma Imagem</h1>
+<div>
+    <label for=""></label>
+    <input class="" type="file" id="fileInput" accept="image/webp, image/jpg" />
+    <button class="btn-primary" id="uploadBtn">Enviar</button>
+
+    <div id="status"></div>
+    <img id="preview" src="" alt="" style="display:none; max-width: 400px; margin-top: 1rem;" />
+</div>
+
+
+<script>
+    const input = document.getElementById("fileInput") as HTMLInputElement | null;
+    const btn = document.getElementById("uploadBtn") as HTMLButtonElement | null;
+    const status = document.getElementById("status");
+    const preview = document.getElementById("preview") as HTMLImageElement | null;
+
+    if (!input || !btn || !status || !preview) {
+    throw new Error("Upload UI elements not found.");
+    }
+    btn.addEventListener("click", async () => {
+    const file = input.files?.[0];
+    if (!file) return (status.textContent = "Please select a file first.");
+
+    status.textContent = "Uploading...";
+
+    // Build FormData — this matches what our API route expects
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+        // Don't set Content-Type — the browser sets it automatically
+        // with the correct multipart boundary
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+        status.textContent = `✅ Uploaded! URL: ${data.url}`;
+        preview.src = data.url;
+        preview.style.display = "block";
+    } else {
+        status.textContent = `❌ Error: ${data.error}`;
+    }
+    });
+</script>

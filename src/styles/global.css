@@ -50,7 +50,7 @@ body{
 .btn-primary{
   @apply bg-accent text-bg px-3 py-1 inline-block text-lg transition-colors
   hover:bg-accent-muted rounded-md
-  xl:text-xl xl:px-4 xl:py-2
+  2xl:text-xl 2xl:px-4 2xl:py-2
 }
 
 .btn-secondary{
