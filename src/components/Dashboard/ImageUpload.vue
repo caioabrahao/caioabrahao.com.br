@@ -81,11 +81,3 @@ onBeforeUnmount(() => {
         <button id="uploadBtn" class="btn-primary mt-2 w-full" @click="uploadFiles">Enviar</button>
     </div>
 </template>
-
-<style scoped>
-@reference '../../styles/global.css';
-
-.scrollbar {
-    scrollbar-color: var(--color-bg) rgba(0, 0, 0, 0);
-}
-</style>

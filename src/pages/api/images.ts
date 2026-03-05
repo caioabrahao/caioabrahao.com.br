@@ -33,16 +33,26 @@ const listObjects = async () => {
     }
 }
 
-//format the s3 response into clean json
-const data = await listObjects();
-const parsed = (data?.Contents ?? []).map((item) => ({
-    filename: item.Key ?? "",
-    url: `${R2_PUBLIC_URL}/${item.Key ?? ""}`
-}));
-const jsonOutput = JSON.stringify({ images: parsed });
-
 //expose de api route
 export const GET: APIRoute = async () => {
+    //format the s3 response into clean json
+    const data = await listObjects();
+
+    if (!data) {
+    return new Response(JSON.stringify({ error: "Failed to list images" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+    }
+
+    const parsed = (data?.Contents ?? []).map((item) => ({
+        filename: item.Key ?? "",
+        url: `${R2_PUBLIC_URL}/${item.Key ?? ""}`
+    }))
+    .sort((a, b) => b.filename.localeCompare(a.filename)); // newest first
+
+    const jsonOutput = JSON.stringify({ images: parsed });
+
     return new Response(jsonOutput, {
         headers: {
             "Content-Type": "application/json"

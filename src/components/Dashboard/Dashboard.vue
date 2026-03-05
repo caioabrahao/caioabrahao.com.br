@@ -2,6 +2,7 @@
 import '../../styles/global.css';
 import 'remixicon/fonts/remixicon.css';
 import ImageUpload from './ImageUpload.vue';
+import UploadedList from './BucketObjectList.vue'
 </script>
 
 <template>
@@ -12,7 +13,7 @@ import ImageUpload from './ImageUpload.vue';
             <h1 class="text-4xl font-warbler-display font-bold">Dashboard</h1>
         </div>
     </div>
-    <div class="px-[5%] grid gap-4 grid-cols-1 grid-rows-3 md:grid-cols-2 lg:grid-cols-3 flex-1 pb-8">
+    <div class="px-[5%] grid gap-4 grid-cols-1 grid-rows-3 md:grid-cols-2 lg:grid-cols-3 flex-1 pb-8 h-full scrollbar">
         <div class="dash-card row-span-3">
             <h3>Enviar Fotos</h3>
             <p>Envie fotos para o bucket da Cloudflare</p>
@@ -20,9 +21,10 @@ import ImageUpload from './ImageUpload.vue';
                 <ImageUpload/>
             </div>
         </div>
-        <div class="dash-card col-span-2">
+        <div class="dash-card col-span-2 h-full overflow-auto">
             <h3>Fotos Enviadas</h3>
             <p>Vejas as fotos existentes no bucket</p>
+            <UploadedList/>
         </div>
         <div class="dash-card col-span-2 row-span-2">
             <h3>Gerenciar Galerias</h3>
