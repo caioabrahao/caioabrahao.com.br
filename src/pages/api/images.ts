@@ -33,29 +33,54 @@ const listObjects = async () => {
     }
 }
 
+// the cache lives at module level — persists between requests
+let cachedImages: { filename: string; url: string }[] | null = null;
+let cacheTimestamp: number | null = null;
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes in milliseconds
+
+function isCacheValid() {
+  return (
+    cachedImages !== null &&
+    cacheTimestamp !== null &&
+    Date.now() - cacheTimestamp < CACHE_TTL
+  );
+}
+
 //expose de api route
 export const GET: APIRoute = async () => {
-    //format the s3 response into clean json
-    const data = await listObjects();
+  // return cache if its still fresh
+  if (isCacheValid()) {
+    return new Response(JSON.stringify({ images: cachedImages }), {
+      headers: { "Content-Type": "application/json" },
+    });
+  }
 
-    if (!data) {
+  // otherwise fetch from R2
+  const data = await listObjects();
+
+  if (!data) {
     return new Response(JSON.stringify({ error: "Failed to list images" }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
     });
-    }
+  }
 
-    const parsed = (data?.Contents ?? []).map((item) => ({
-        filename: item.Key ?? "",
-        url: `${R2_PUBLIC_URL}/${item.Key ?? ""}`
+  // build, store, and return the fresh list
+  cachedImages = (data.Contents ?? [])
+    .map((item) => ({
+      filename: item.Key ?? "",
+      url: `${R2_PUBLIC_URL}/${item.Key ?? ""}`,
     }))
-    .sort((a, b) => b.filename.localeCompare(a.filename)); // newest first
+    .sort((a, b) => b.filename.localeCompare(a.filename));
 
-    const jsonOutput = JSON.stringify({ images: parsed });
+  cacheTimestamp = Date.now();
 
-    return new Response(jsonOutput, {
-        headers: {
-            "Content-Type": "application/json"
-        }
-    });
+  return new Response(JSON.stringify({ images: cachedImages }), {
+    headers: { "Content-Type": "application/json" },
+  });
 };
+
+export function invalidateImageCache() {
+  cachedImages = null;
+  cacheTimestamp = null;
+}

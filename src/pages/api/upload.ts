@@ -3,6 +3,7 @@ import type { APIRoute } from "astro";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { Buffer } from "node:buffer";
 import { R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET_NAME, R2_PUBLIC_URL } from "astro:env/server";
+import { invalidateImageCache } from "./images";
 
 
 // 1. Create the S3 client pointed at Cloudflare R2
@@ -37,7 +38,7 @@ export const POST: APIRoute = async ({ request }) => {
         Body: buffer,
         ContentType: file.type,
       }));
-
+      invalidateImageCache();
       return { filename, url: `${R2_PUBLIC_URL}/${filename}` };
       
     })
