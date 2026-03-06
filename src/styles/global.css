@@ -72,3 +72,7 @@ body{
 @utility scrollbar {
     scrollbar-color: var(--color-bg) rgba(0, 0, 0, 0);
 }
+
+@utility global-padding-x {
+    @apply px-[5%]
+}

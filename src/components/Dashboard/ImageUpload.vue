@@ -65,10 +65,7 @@ onBeforeUnmount(() => {
             @change="handleFileChange"
         />
 
-        <div id="status">{{ status }}</div>
-        <p>Preview das Imagens:</p>
-
-        <div id="previews" class="scrollbar mt-4 grid grid-cols-3 gap-2 max-h-64 overflow-auto">
+        <div id="previews" class="scrollbar mt-4 grid grid-cols-3 xl:grid-cols-7 gap-2 max-h-full overflow-auto">
             <img
                 v-for="preview in previews"
                 :key="preview.url"
@@ -78,6 +75,7 @@ onBeforeUnmount(() => {
             />
         </div>
 
+        <div id="status"><p class="text-warning">{{ status }}</p></div>
         <button id="uploadBtn" class="btn-primary mt-2 w-full" @click="uploadFiles">Enviar</button>
     </div>
 </template>
