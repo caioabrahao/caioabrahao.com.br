@@ -43,4 +43,5 @@ Theres also theme variables to keep the visuals consistent (located at the `@the
   - `warbler-display`: Used for secondary titles
   - `cesso`: Idk why its there, might delete later.
   - Not a variable, but the whole site uses the font `proxima-nova` as the default.
+  
 | (i) Note: Fonts are fetched from Adobe Fonts. As im writing this, theres no fallback fonts for non-paid service. 
