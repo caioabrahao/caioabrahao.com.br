@@ -7,12 +7,6 @@ import UploadedList from './BucketObjectList.vue'
 
 <template>
 <section class="h-screen flex flex-col">
-    <div class="w-full px-[5%] p-4">
-        <div class="flex items-center gap-4">
-            <p class="font-gunter text-4xl">CRA</p>
-            <h1 class="text-4xl font-warbler-display font-bold">Dashboard</h1>
-        </div>
-    </div>
     <div class="px-[5%] grid gap-4 grid-cols-1 grid-rows-3 md:grid-cols-2 lg:grid-cols-3 flex-1 pb-8 h-full scrollbar">
         <div class="dash-card row-span-3">
             <h3>Enviar Fotos</h3>
