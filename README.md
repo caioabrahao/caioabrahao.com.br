@@ -13,3 +13,15 @@ Just a lil personal site for myself. Im focusing mainly on photography stuff it 
 ### APIs
 - `images.ts` api fetches all bucket items from the R2 bucket and returns a list of it.
 - (!) It cashes the list for 5mins. When an image is uploaded it forces a cash refresh.
+
+#### Images API query parameters
+| Route   |      Available Parameter      |  Detail |
+|----------|:-------------:|------:|
+| `/api/images` |  maxKeys | optional, defaults to 100 |
+| `/api/images` |    prefix   |   optional |
+| `/api/images` | order |    not implemented **yet** |
+
+Examples:
+
+- `/api/images` - Return all images in the bucket root directory
+- `/api/images?maxKeys=5` - Return only 5 images
