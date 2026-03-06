@@ -3,7 +3,7 @@ import type { APIRoute } from "astro";
 import { S3Client, ListObjectsV2Command, type ListObjectsV2CommandInput } from "@aws-sdk/client-s3";
 import { R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET_NAME, R2_PUBLIC_URL } from "astro:env/server";
 
-const enableRequestCashing = true;
+const enableRequestCashing = false; //toggle caching for dev purposes
 
 //setup the client credentials
 const s3 = new S3Client({
@@ -79,17 +79,36 @@ export const GET: APIRoute = async ({request}) => {
   }
 
   // build, store, and return the fresh list
-  const cachedImages = (data.Contents ?? [])
-    .map((item) => ({
-      filename: item.Key ?? "",
-      url: `${R2_PUBLIC_URL}/${item.Key ?? ""}`,
-    }))
-    .sort((a, b) => b.filename.localeCompare(a.filename));
+  // const cachedImages = (data.Contents ?? [])
+  //   .map((item) => ({
+  //     filename: item.Key ?? "",
+  //     url: `${R2_PUBLIC_URL}/${item.Key ?? ""}`,
+  //   }))
+  //   .sort((a, b) => b.filename.localeCompare(a.filename));
+
+  //Defining images vs folders(directories)
+  const images = (data.Contents ?? [])
+  .map((item) => ({
+    type: "file" as const,
+    filename: item.Key ?? "",
+    url: `${R2_PUBLIC_URL}/${item.Key ?? ""}`,
+  }))
+  .sort((a, b) =>
+    order === "desc"
+      ? b.filename.localeCompare(a.filename)
+      : a.filename.localeCompare(b.filename)
+  );
+  const folders = (data.CommonPrefixes ?? []).map((p) => ({
+    type: "folder" as const,
+    prefix: p.Prefix ?? "",
+    name: p.Prefix?.replace(prefix, "").replace("/", "") ?? "", // just the folder name, not full path
+  }));
+
   if(enableRequestCashing){
-    cache.set(cacheKey, { images: cachedImages, timestamp: Date.now() }); //take the json response and save it to the cache map.
+    cache.set(cacheKey, { images, timestamp: Date.now() }); //take the json response and save it to the cache map.
   }
 
-  return new Response(JSON.stringify({ images: cachedImages }), {
+  return new Response(JSON.stringify({ images, folders }), {
     headers: { "Content-Type": "application/json" },
   });
 
