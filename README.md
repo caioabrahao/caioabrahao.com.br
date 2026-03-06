@@ -6,3 +6,10 @@ Just a lil personal site for myself. Im focusing mainly on photography stuff it 
 - Hosted on Cloudflare Pages
 - Photos stored in Cloudflare R2
 - Dashboard have secured access by Cloudflare Zero Trust
+
+## Keeping track of the architecture...
+- 2 mains pillars/zones of the site: Public Showcase and Management Dashboard
+
+### APIs
+- `images.ts` api fetches all bucket items from the R2 bucket and returns a list of it.
+- (!) It cashes the list for 5mins. When an image is uploaded it forces a cash refresh.
