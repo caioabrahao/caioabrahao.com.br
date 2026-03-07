@@ -65,13 +65,17 @@
 /* Button Styling Utilities  vvvvv */
 @utility btn-base{
   @apply px-3 py-1 inline-block cursor-pointer transition-colors rounded-md
-hover:bg-accent-muted
+  hover:bg-accent-muted
   text-lg
   2xl:text-xl 2xl:px-4 2xl:py-2
 }
 
 @utility btn-primary{
   @apply btn-base
+  bg-accent text-bg
+}
+@utility btn-primary-sm{
+  @apply btn-base text-sm
   bg-accent text-bg
 }
 
