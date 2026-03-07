@@ -1,0 +1,27 @@
+---
+interface Props{
+    id: string;
+    title: string;
+}
+const { id, title } = Astro.props;
+---
+
+<dialog popover class="card-style modal-style" id={id}>
+    <div class="border-b border-text-muted mb-4 pb-2">
+        <h3 class="text-lg font-warbler-text">{title}</h3>
+    </div>
+    <slot><i>&lt;Modal&gt;<br>your content here! <br>place it inside the 2 modal tags! <br>&lt;/Modal&gt;</i></slot>
+</dialog>
+
+
+<style>
+@reference '../styles/global.css';
+
+.modal-style{
+ @apply flex-col place-self-center items-center scrollbar
+ max-w-[65%] max-h-[50%] object-scale-down
+ backdrop:bg-gray-800/30 backdrop:backdrop-blur-xs
+ open:flex
+ 
+}
+</style>

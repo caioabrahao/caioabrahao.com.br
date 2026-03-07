@@ -1,8 +1,18 @@
 ---
 import DashboardLayout from "../../layouts/DashboardLayout.astro"
 import FileManagerView from "../../components/Dashboard/views/FileManager.vue"
+import Modal from "../../components/Modal.astro"
+import ImageUpload from "../../components/Dashboard/ImageUpload.vue"
+import '../../styles/global.css'
 ---
 
 <DashboardLayout>
+    <Modal id="uploadModal" title="Upload Modal">
+        <ImageUpload client:load/>
+    </Modal>
+    
     <FileManagerView client:load/>
 </DashboardLayout>
+
+
+
