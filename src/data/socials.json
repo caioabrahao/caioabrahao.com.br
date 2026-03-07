@@ -1,21 +1,26 @@
 {
     "instagram":{
+        "name": "Instagram",
         "link": "https://www.instagram.com/caioabrahao.fotografia/",
         "icon": "ri-instagram-line"
     },
     "behance":{
+        "name": "Behance",
         "link": "https://www.behance.net/caioabrahao",
         "icon": "ri-behance-line"
     },
     "twitter":{
+        "name": "Twitter / X",
         "link": "https://x.com/taldeabrahao",
         "icon": "ri-twitter-x-line"
     },
     "github":{
+        "name": "Github",
         "link": "https://github.com/caioabrahao",
         "icon": "ri-github-fill"
     },
     "52frames":{
+        "name": "52 Frames",
         "link": "https://52frames.com/photographer/42162",
         "icon": "ri-camera-3-line"
     }

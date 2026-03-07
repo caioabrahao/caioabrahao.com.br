@@ -2,8 +2,13 @@
 import socials from '../data/socials.json';
 const socialList = Object.values(socials);
 
+interface Props{
+    size?: string;
+}
+const { size = "lg" } = Astro.props;
+
 ---
-<ul class="flex text-2xl gap-2 xl:text-2xl">
+<ul class:list={['flex gap-2', size]}>
     {socialList.map((social) => (
         <li>
             <a href={social.link} target="_blank" rel="noopener noreferrer">
@@ -17,5 +22,12 @@ const socialList = Object.values(socials);
     @reference '../styles/global.css';
     a:hover{
         @apply text-accent transition-colors
+    }
+
+    .lg{
+        @apply text-2xl
+    }
+    .sm{
+        @apply text-xl 
     }
 </style>
