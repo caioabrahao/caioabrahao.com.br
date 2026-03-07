@@ -1,0 +1,75 @@
+/* Experimental themes */
+
+@import "tailwindcss";
+
+.kodak-theme{
+    /* base – film-like darks (not pure black) */
+  --color-bg: #12110f;
+  --color-surface: #1b1916;
+  --color-surface-soft: #24211d;
+
+  /* text – warm paper-like tones */
+  --color-text: #f2efe8;
+  --color-text-muted: #b7b1a6;
+
+  /* film highlight tones */
+  --color-highlight: #f4e3c3;
+  --color-highlight-soft: #e8d4b1;
+
+  /* primary accent – kodak warmth */
+  --color-accent: #d87a43;
+  --color-accent-soft: #e8a070;
+  --color-accent-muted: #a85c33;
+
+  /* secondary accent – analog greens (nature film tones) */
+  --color-secondary: #6f8a5a;
+  --color-secondary-soft: #98b07f;
+
+  /* shadow tint – subtle film blue shadows */
+  --color-shadow-tint: #3e4a57;
+
+  /* borders */
+  --color-border: #2c2924;
+  --color-border-soft: #22201c;
+
+  /* states */
+  --color-success: #7fa36b;
+  --color-warning: #d9a441;
+  --color-danger: #c65a4f;
+}
+
+.portra-light-theme{
+  /* base – warm photo paper tones */
+  --color-bg: #f6f1e7;
+  --color-surface: #efe7d8;
+  --color-surface-soft: #e6dccb;
+
+  /* text – warm dark browns instead of black */
+  --color-text: #3b342c;
+  --color-text-muted: #7a7064;
+
+  /* highlight tones – sunlit film highlights */
+  --color-highlight: #fff3dc;
+  --color-highlight-soft: #f7e6c7;
+
+  /* primary accent – portra orange/peach */
+  --color-accent: #d57a4a;
+  --color-accent-soft: #e9a47d;
+  --color-accent-muted: #a95c35;
+
+  /* secondary accent – film olive greens */
+  --color-secondary: #7e916b;
+  --color-secondary-soft: #a6b694;
+
+  /* shadow tint – subtle cool shadows like film scans */
+  --color-shadow-tint: #8fa1b2;
+
+  /* borders */
+  --color-border: #d8cfbf;
+  --color-border-soft: #e7dece;
+
+  /* states */
+  --color-success: #7aa36a;
+  --color-warning: #d3a047;
+  --color-danger: #c76055;
+}

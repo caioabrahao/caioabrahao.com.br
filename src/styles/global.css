@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./themes.css";
 
 @theme {
   /* base */
@@ -35,10 +36,23 @@
   --font-gunter: gunter, sans-serif;
 }
 
-body{
+@layer base{
+  body{
    font-family: proxima-nova, sans-serif;
    @apply bg-bg text-text;
+  }
 }
+
+@utility global-padding-x {
+    @apply px-[5%] 2xl:px-[25%]
+}
+
+@utility scrollbar {
+    scrollbar-color: var(--color-bg) rgba(0, 0, 0, 0);
+    scrollbar-width: thin;
+}
+
+
 
 @utility card-style{
   @apply bg-surface-soft border border-border text-text p-4
@@ -47,32 +61,29 @@ body{
   @apply bg-surface border border-border-soft text-text p-4
 }
 
-@utility btn-primary{
-  @apply bg-accent text-bg px-3 py-1 inline-block text-lg transition-colors
-  hover:bg-accent-muted rounded-md
+
+/* Button Styling Utilities  vvvvv */
+@utility btn-base{
+  @apply px-3 py-1 inline-block cursor-pointer transition-colors rounded-md
+hover:bg-accent-muted
+  text-lg
   2xl:text-xl 2xl:px-4 2xl:py-2
-  cursor-pointer
+}
+
+@utility btn-primary{
+  @apply btn-base
+  bg-accent text-bg
 }
 
 @utility btn-secondary{
-  @apply bg-accent-soft text-bg px-3 py-1 inline-block text-lg transition-colors
-  hover:bg-accent-muted rounded-md
-  2xl:text-2xl 2xl:px-4 2xl:py-2
-  cursor-pointer
+  @apply btn-base
+  bg-accent-soft text-bg
 }
 
 @utility btn-soft{
-  @apply bg-surface text-text-muted px-3 py-1 inline-block transition-colors
+  @apply btn-base text-sm
+  bg-surface text-text-muted
   hover:bg-surface-soft rounded-md
-  text-sm
-  2xl:text-2xl 2xl:px-4 2xl:py-2
-  cursor-pointer
 }
+/* Button Styling Utilities  ^^^^^ */
 
-@utility scrollbar {
-    scrollbar-color: var(--color-bg) rgba(0, 0, 0, 0);
-}
-
-@utility global-padding-x {
-    @apply px-[5%]
-}
