@@ -1,7 +1,8 @@
 <script setup>
 import '../../styles/global.css';
 import 'remixicon/fonts/remixicon.css';
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
+import { bucketUpdated } from '../../lib/eventBus';
 
 const images = ref([]);
 const folders = ref([]);
@@ -36,6 +37,10 @@ async function fetchContents (){
             isLoading.value = false
 })
 }
+
+watch(bucketUpdated, () => {
+  fetchContents() // refetch whenever the signal fires
+})
 
 onMounted(async () =>{
     fetchContents();

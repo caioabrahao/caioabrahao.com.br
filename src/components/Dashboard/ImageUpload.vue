@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onBeforeUnmount, ref } from 'vue';
+import { bucketUpdated } from '../../lib/eventBus';
 import '../../styles/global.css';
 import 'remixicon/fonts/remixicon.css';
 
@@ -13,6 +14,11 @@ const clearPreviewUrls = () => {
         URL.revokeObjectURL(preview.url);
     }
 };
+
+const updateBucketList = () => {
+    console.log("Trying to update Object Lists at BucketObjectList.vue")
+    bucketUpdated.value++
+}
 
 const handleFileChange = (event: Event) => {
     const target = event.target as HTMLInputElement;
@@ -61,6 +67,7 @@ const uploadFiles = async () => {
         if (fileInput.value) {
             fileInput.value.value = "";
         }
+        updateBucketList();
     } else{
         statusColor.value = 'text-danger'
         status.value = `Algo deu errado! (${data.error})`
