@@ -1,0 +1,58 @@
+---
+import '../styles/global.css';
+import 'remixicon/fonts/remixicon.css';
+import SocialsList from './SocialsList.astro';
+import socials from '../data/socials.json'
+
+const socialList = Object.values(socials);
+---
+
+<footer class="global-padding-x pt-4 pb-16 text-text-muted flex justify-between">
+    <div>
+        <p class="font-gunter text-2xl">CRA</p>
+        <p>Caio Ribeiro Abrahão</p>
+        <SocialsList size="sm"/>
+    </div>
+    <div class="flex gap-16">
+        <div>
+        <h4 class="font-bold font-warbler-display text-lg uppercase">Site</h4>
+        <ul>
+            <li><a href="#"></a>Home</li>
+            <li><a href=""></a>Blog</li>
+            <li><a href=""></a>Programação</li>
+            <li><a href=""></a>Galeria</li>
+        </ul>
+        </div>
+        <div>
+            <h4 class="font-bold font-warbler-display text-lg uppercase">Fotografia</h4>
+            <ul>
+                <li><a href=""></a>Galeria</li>
+                <li><a href=""></a>Albums</li>
+                <li><a href=""></a>Album Surpresa <i class="ri-dice-line"></i></li>
+                <li><a href=""></a>Instagram <i class="ri-external-link-line"></i></li>
+                <li><a href=""></a>52 Frames <i class="ri-external-link-line"></i></li>
+            </ul>
+        </div>
+        <div>
+            <h4 class="font-bold font-warbler-display text-lg uppercase">Programação</h4>
+            <ul>
+                <li><a href=""></a>Projetos</li>
+                <li><a href=""></a>README</li>
+                <li><a href=""></a>Projeto Surpresa <i class="ri-dice-line"></i></li>
+                <li><a href=""></a>Github <i class="ri-external-link-line"></i></li>
+            </ul>
+        </div>
+        <div>
+            <h4 class="font-bold font-warbler-display text-lg uppercase">Socials</h4>
+            <ul>
+                {socialList.map((social) => (
+            <li>
+                <a href={social.link} target="_blank" rel="noopener noreferrer">
+                    {social.name}
+                </a>
+            </li>
+        ))}
+            </ul>
+        </div>
+    </div>
+</footer>
