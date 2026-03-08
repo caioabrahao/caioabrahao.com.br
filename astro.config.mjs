@@ -2,7 +2,6 @@
 import { defineConfig, envField } from 'astro/config';
 import tailwindcss from "@tailwindcss/vite";
 import cloudflare from "@astrojs/cloudflare";
-
 import vue from "@astrojs/vue";
 
 // https://astro.build/config
