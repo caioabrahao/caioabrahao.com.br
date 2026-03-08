@@ -1,7 +1,7 @@
 <script setup>
 import '../../styles/global.css';
 import 'remixicon/fonts/remixicon.css';
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, defineEmits } from "vue";
 import { bucketUpdated } from '../../lib/eventBus';
 import ImageFileItem from './ImageFileItem.vue';
 
@@ -12,6 +12,16 @@ const prefix = ref("");
 const isLoading = ref(true);
 const failedFetch = ref(false);
 const errorMsg = ref("");
+
+const totalFetched = ref()
+const fetchedFrom = ref("")
+
+const emit = defineEmits("image-selected")
+const isSelected = ref(false)
+
+function selectImage(image){
+    emit("image-selected", image)
+}
 
 function openFolder(folderPrefix){
     prefix.value = folderPrefix + '/'
@@ -29,6 +39,10 @@ async function fetchContents (){
         .then(data => {
             images.value = data.images
             folders.value = data.folders
+
+            totalFetched.value = data.requestMeta.amountReturned
+            fetchedFrom.value = data.requestMeta.bucketFrom
+
             isLoading.value = false
             console.log(data)
         })
@@ -51,10 +65,13 @@ onMounted(async () =>{
 <template>
     <div class="">
         <div class="card-style mb-4 text-text-muted flex justify-between items-center">
-            <div class="flex gap-2 items-center">
-                <button @click="resetPrefix" class="btn-soft"><i class="ri-home-2-line"></i></button>
-                <p v-if="prefix.length === 0">folder: root/</p>
-                <p v-else>folder: root/{{ prefix }}</p>
+            <div>
+                <div class="flex gap-2 items-center">
+                    <button @click="resetPrefix" class="btn-soft"><i class="ri-home-2-line"></i></button>
+                    <p v-if="prefix.length === 0">folder: root/</p>
+                    <p v-else>folder: root/{{ prefix }}</p>
+                </div>
+                <p class="text-base mt-2 opacity-50">Successfully fetched {{ totalFetched }} items!</p>
             </div>
             <div class="flex gap-2">
                 <button class="btn-primary-sm" popovertarget="uploadModal"><i class="ri-upload-2-line"></i> Enviar Imagem</button>
@@ -70,8 +87,8 @@ onMounted(async () =>{
                     <span class="text-xl text-center">{{ folder.name }}</span>
                 </button>
             </li>
-            <li v-for="image in images" :key="image.filename">
-                <ImageFileItem class="object-cover aspect-3/4" :url="image.url" :filename="image.filename"/>
+            <li @click="selectImage(image)" :class="{ 'outline outline-accent' : isSelected }" v-for="image in images" :key="image.filename">
+                <ImageFileItem :url="image.url" :filename="image.filename"/>
             </li>
         </ul>
     </div>

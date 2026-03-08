@@ -22,11 +22,12 @@ const listObjects = async (params: ListObjectsV2CommandInput) => {
         const command = new ListObjectsV2Command(params);
         const data = await s3.send(command);
 
-        console.log("Success", data.Contents);
+        // console.log("Success", data.Contents);
+        console.log(`%cSuccessfully fetched Objects from bucket '${data.Name}', returned ${data.KeyCount} items.` , "color: green");
 
         return data;
     } catch (err){
-        console.error("Error", err);
+        console.error("Error trying to fetch!", err);
         return undefined;
     }
 }
@@ -65,6 +66,8 @@ export const GET: APIRoute = async ({request}) => {
   const cacheKey = getCacheKey(maxKeys, prefix, order);
   // return cache if its still fresh
   if (enableRequestCashing && isCacheValid(cacheKey)) {
+    // (!) CACHE NOT UP TO DATE TO THE NEW DATA AND RESPONSE FORMAT!
+    console.log(`%cCache up to date! Returning cached data...`, "color:blue")
     return new Response(JSON.stringify({ images: cache.get(cacheKey)!.images }), {
       headers: { "Content-Type": "application/json" },
     });
@@ -79,6 +82,21 @@ export const GET: APIRoute = async ({request}) => {
     });
   }
 
+  const requestMeta = {
+    bucketFrom: data.Name, 
+    amountReturned: data.KeyCount,
+  }
+
+  //defining date formatting for the last modified field
+    const options: Intl.DateTimeFormatOptions = {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    };
+
   //Defining images vs folders(directories)
   const images = (data.Contents ?? [])
   .flatMap((item) => {
@@ -89,6 +107,8 @@ export const GET: APIRoute = async ({request}) => {
       type: "file" as const,
       filename: item.Key ?? "",
       url: `${R2_PUBLIC_URL}/${item.Key ?? ""}`,
+      lastModified: new Intl.DateTimeFormat('pt-BR', options).format(item.LastModified),
+      size: item.Size,
     }
   })
   .sort((a, b) =>
@@ -107,7 +127,7 @@ export const GET: APIRoute = async ({request}) => {
     cache.set(cacheKey, { images, timestamp: Date.now() }); //take the json response and save it to the cache map.
   }
 
-  return new Response(JSON.stringify({ images, folders }), {
+  return new Response(JSON.stringify({ requestMeta, images, folders }), {
     headers: { "Content-Type": "application/json" },
   });
 

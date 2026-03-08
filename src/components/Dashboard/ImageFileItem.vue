@@ -4,8 +4,11 @@ import { ref } from 'vue';
 const props = defineProps({
     url: String,
     filename: String,
-    className: String,
-    clickAction: String,
+    imgClassName: { //not gonna use this one for now!
+        type: String,
+        default: "object-cover aspect-3/4"
+    },
+    clickAction: String, //maybe just let it be defined by the parent component itself (!)
 })
 
 const isColored = ref(false);
@@ -42,7 +45,7 @@ async function copyLink(link){
             </div>
         </div>
     </div>
-    <img @click="" class="object-cover aspect-3/4" :src="url" :alt="filename">
+    <img class="object-cover aspect-3/4" :src="url" :alt="filename">
 </div>
 
 </template>
@@ -64,5 +67,4 @@ async function copyLink(link){
     transition-opacity
     duration-100
 }
-
 </style>
