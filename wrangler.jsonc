@@ -12,5 +12,13 @@
 	},
 	"observability": {
     "enabled": true
-  }
+  },
+  "d1_databases": [
+    {
+      "binding": "images_metadata",
+      "database_name": "images-metadata",
+      "database_id": "c59853eb-06e1-439d-b10f-88b38cd9a79c"
+    }
+  ]
+
 }

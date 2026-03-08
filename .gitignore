@@ -22,3 +22,9 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# wrangler sqlite files
+.wrangler/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
