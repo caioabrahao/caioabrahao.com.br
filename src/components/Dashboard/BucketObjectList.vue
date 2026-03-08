@@ -65,7 +65,10 @@ onMounted(async () =>{
         <p v-else-if="!isLoading && images.length === 0">No images found! Maybe upload some...</p>
         <ul v-else class="grid grid-cols-5 gap-2 list-none">
             <li v-for="folder in folders" :key="folder.name">
-                <button @click="openFolder(folder.name)" class="card-style hover:bg-accent-muted transition-colors hover:cursor-pointer flex flex-col place-content-center w-full h-full"><i class="ri-folder-4-line text-6xl"></i> <span class="text-3xl">{{ folder.name }}</span></button>
+                <button @click="openFolder(folder.name)" class="card-style hover:bg-accent-muted transition-colors hover:cursor-pointer flex flex-col place-content-center w-full h-full aspect-3/4">
+                    <i class="ri-folder-4-line text-3xl"></i> 
+                    <span class="text-xl text-center">{{ folder.name }}</span>
+                </button>
             </li>
             <li v-for="image in images" :key="image.filename">
                 <ImageFileItem class="object-cover aspect-3/4" :url="image.url" :filename="image.filename"/>
