@@ -3,6 +3,7 @@ import '../../styles/global.css';
 import 'remixicon/fonts/remixicon.css';
 import { ref, onMounted, watch } from "vue";
 import { bucketUpdated } from '../../lib/eventBus';
+import ImageFileItem from './ImageFileItem.vue';
 
 const images = ref([]);
 const folders = ref([]);
@@ -67,7 +68,7 @@ onMounted(async () =>{
                 <button @click="openFolder(folder.name)" class="card-style hover:bg-accent-muted transition-colors hover:cursor-pointer flex flex-col place-content-center w-full h-full"><i class="ri-folder-4-line text-6xl"></i> <span class="text-3xl">{{ folder.name }}</span></button>
             </li>
             <li v-for="image in images" :key="image.filename">
-                <img class="object-cover aspect-3/4" :src="image.url" :alt="image.filename">
+                <ImageFileItem class="object-cover aspect-3/4" :url="image.url" :filename="image.filename"/>
             </li>
         </ul>
     </div>
