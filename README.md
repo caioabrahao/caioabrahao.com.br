@@ -1,10 +1,31 @@
 # Personal Website made with Astro
 Just a lil personal site for myself. Im focusing mainly on photography stuff it it, but i may add more other cool stuff in the future if people actually start to access it...
 
+## Setting up the project
+1. Install dependencies with
+```bash
+npm install
+```
+2. Copy the .env.example to its own .env file with:
+```bash
+cp .env.example .env
+```
+3. Insert the keys in the newly created `.env`.
+4. Setup local database with
+```bash
+npx wrangler d1 execute images-metadata --local --file=src/db/schema.sql
+```
+5. To start the thing, just run:
+```bash
+npm run dev
+```
+
+
 ## Noticeable Information:
 - Made with Astro + Tailwind CSS
 - Hosted on Cloudflare Pages
 - Photos stored in Cloudflare R2
+- Photos metadata stored and managed by Cloudflare D1 SQL database
 - Dashboard have secured access by Cloudflare Zero Trust
 
 ## Git Convention:
