@@ -1,0 +1,30 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+// import "../../styles/global.css"
+import "../../styles/markdown.css"
+
+const slug = Astro.params.slug;
+const posts = await getCollection("blog"); // must exactly match config.ts key
+
+const post = posts.find((p: { slug: string | undefined; }) => p.slug === slug);
+
+if (!post) {
+  throw new Error(`Post not found: ${slug}`);
+}
+
+const { Content } = await render(post); // avoid post.render() on newer Astro
+---
+<Layout>
+    <section class="min-h-screen flex flex-col items-center global-padding-x py-32">
+        <h1 class="font-gunter text-3xl">{post.data.title}</h1>
+        <p class="text-text-muted text-xl">{post.data.description}</p>
+        <div class="flex gap-8">
+            <p class="text-text-muted">Escrito por: {post.data.author}</p>
+            <p class="text-text-muted italic">No dia: {post.data.pubDate.toLocaleDateString('pt-br')}</p>
+        </div>
+        <div class="markdown mt-8">
+            <Content />
+        </div>
+    </section>
+</Layout>

@@ -1,0 +1,34 @@
+---
+import Layout from "../../layouts/Layout.astro"
+import '../../styles/global.css';
+import 'remixicon/fonts/remixicon.css';
+import BlogCard from "../../components/BlogCard.astro";
+import { getCollection, type ContentCollectionKey } from 'astro:content';
+
+const allPosts = await getCollection('blog');
+allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<Layout>
+    <section class="h-96 bg-surface flex flex-col items-center justify-center global-padding-x">
+        <h1 class="font-gunter text-3xl">Blog</h1>
+        <p class="text-center text-text-muted max-w-[50%] xl:max-w-[30%]">Leia alguns dos meus pensamentos, opiniões e informações curiosas. Talvez se surpreenda com algo interessante!</p>
+    </section>
+    <section class="flex flex-col global-padding-x py-8">
+        <h2 class="font-warbler-display text-2xl font-bold mb-4">Postagens Recentes</h2>
+        <!-- Post List -->
+        <ul class="flex gap-8">
+          {allPosts.map((post: any) => (
+          <li>
+            <BlogCard 
+            title={post.data.title}
+            description="yeah dweeb... tell me about it"
+            pubDate={post.data.pubDate.toLocaleDateString()}
+            link={`/blog/${post.slug}/`}/>
+          </li>
+          ))}
+        </ul>
+        
+        
+    </section>
+</Layout>
