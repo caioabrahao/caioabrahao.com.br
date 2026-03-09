@@ -13,12 +13,12 @@ const selectedImage = ref({});
             <BucketObjectList @image-selected="selectedImage = $event"/>
         </div>
 
-        <div class="min-w-64 max-w-96 card-style-darker overflow-x-hidden overflow-y-auto scrollbar">
+        <div class="w-96 card-style-darker overflow-x-hidden overflow-y-auto scrollbar">
             <div class="relative">
             <div class="flex flex-col-reverse p-2 absolute bottom-0 left-0 bg-linear-to-t from-surface from-0% via-surface/90 via-25% to-surface/0 h-full w-full">
-                <h4 class=" font-bold text-2xl mb-4">Nome: {{ selectedImage.filename }}</h4>
+                <h4 class=" font-bold text-2xl mb-4">{{ selectedImage.filename }}</h4>
             </div>
-            <img class="object-cover" :src="selectedImage.url" :alt="selectedImage.filename">
+            <img class="object-cover aspect-3/4" :src="selectedImage.url" :alt="selectedImage.filename">
             </div>
              
             <div>
