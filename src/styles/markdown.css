@@ -2,7 +2,7 @@
 
 @layer components {
     .markdown {
-        @apply text-base leading-7 2xl:text-xl;
+        @apply w-full max-w-[72ch] mx-auto text-base leading-7 2xl:text-xl;
 
         h1 {
             @apply text-3xl font-warbler-text font-bold mt-8 mb-4 2xl:text-5xl;
@@ -33,6 +33,10 @@
             @apply my-4;
         }
 
+        p + p {
+            @apply mt-4;
+        }
+
         hr {
             @apply border-0 border-t border-border my-8 opacity-60;
         }
@@ -41,16 +45,21 @@
             @apply text-accent underline transition-colors hover:text-accent-soft visited:text-accent-muted;
         }
 
+        a:focus-visible,
+        summary:focus-visible {
+            @apply outline-none ring-2 ring-accent-soft ring-offset-2 ring-offset-bg rounded-sm;
+        }
+
         blockquote {
             @apply border-l-4 border-surface-soft pl-4 text-text-muted;
         }
 
         ul {
-            @apply list-disc list-inside;
+            @apply list-disc list-outside pl-6;
         }
 
         ol {
-            @apply list-decimal list-inside;
+            @apply list-decimal list-outside pl-6;
         }
 
         li + li {
@@ -61,7 +70,7 @@
         ul ol,
         ol ul,
         ol ol {
-            @apply my-1 ml-5;
+            @apply my-2 ml-4;
         }
 
         input[type="checkbox"] {
@@ -81,7 +90,7 @@
         }
 
         table {
-            @apply w-full border-collapse border border-border;
+            @apply w-full border-collapse border border-border text-sm block overflow-x-auto;
         }
 
         th,
@@ -91,6 +100,10 @@
 
         th {
             @apply bg-surface-soft font-bold;
+        }
+
+        tbody tr:nth-child(even) {
+            @apply bg-surface;
         }
 
         img {
@@ -119,6 +132,23 @@
 
         mark {
             @apply bg-accent-soft text-bg px-1 rounded;
+        }
+
+        abbr[title] {
+            @apply underline decoration-dotted cursor-help;
+        }
+
+        cite {
+            @apply italic text-text-muted;
+        }
+
+        small {
+            @apply text-sm text-text-muted;
+        }
+
+        time {
+            @apply text-text-muted;
+            font-variant-numeric: tabular-nums;
         }
 
         kbd {
@@ -165,7 +195,12 @@
 
         .footnotes ol,
         section[data-footnotes] ol {
-            @apply list-decimal list-inside;
+            @apply list-decimal list-outside pl-6;
+        }
+
+        .footnote-backref,
+        section[data-footnotes] a[data-footnote-backref] {
+            @apply ml-1 no-underline text-accent-muted;
         }
     }
 }
