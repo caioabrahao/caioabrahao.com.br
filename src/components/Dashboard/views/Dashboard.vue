@@ -1,8 +1,8 @@
 <script setup>
-import '../../styles/global.css';
+import '../../../styles/global.css';
 import 'remixicon/fonts/remixicon.css';
-import ImageUpload from './ImageUpload.vue';
-import UploadedList from './BucketObjectList.vue'
+import ImageUpload from '../ImageUpload.vue';
+import UploadedList from '../BucketObjectList.vue'
 </script>
 
 <template>
@@ -29,7 +29,7 @@ import UploadedList from './BucketObjectList.vue'
 </template>
 
 <style scoped>
-    @reference '../../styles/global.css';
+    @reference '../../../styles/global.css';
     .dash-card{
         @apply card-style flex flex-col;
         p{
