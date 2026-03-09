@@ -1,8 +1,30 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import BucketObjectList from '../BucketObjectList.vue';
 
 const selectedImage = ref({});
+const metadata = ref(null);
+const isLoadingMeta = ref(false);
+
+const fetchMetadata = async (image) => {
+    if (!image) return;
+
+    isLoadingMeta.value = true;
+    metadata.value = null;
+
+    const res = await fetch(`/api/metadata?key=${image.filename}`);
+    const data = await res.json();
+
+    metadata.value = data.image;
+    console.log(metadata.value)
+    isLoadingMeta.value = false;
+};
+
+watch(selectedImage, async (image) => {
+    fetchMetadata(image);
+})
+
+
 
 </script>
 
@@ -35,17 +57,17 @@ const selectedImage = ref({});
                 <details open>
                     <summary class="text-lg font-bold mt-4">EXIF Metadata</summary>
                     <ul class="text-text-muted truncate">
-                        <li><i class="ri-sensor-fill"></i> ISO: </li>
-                        <li><i class="ri-time-fill"></i> Shutter Speed: </li>
-                        <li><i class="ri-camera-lens-fill"></i> Abertura: </li>
-                        <li><i class="ri-aspect-ratio-fill"></i> Dimensões: </li>
-                        <li><i class="ri-calendar-fill"></i> Tirada em:</li>
-                        <li><i class="ri-registered-fill"></i> Fabricante da Câmera: </li>
-                        <li><i class="ri-camera-2-fill"></i> Modelo da Câmera: </li>
-                        <li><i class="ri-contrast-fill"></i> Ajuste de Exposição: </li>
-                        <li><i class="ri-binoculars-fill"></i> Distância Focal: </li>
-                        <li><i class="ri-settings-3-fill"></i> Modo de Medição: </li>
-                        <li><i class="ri-flashlight-fill"></i> Flash: </li>
+                        <li><i class="ri-sensor-fill"></i> ISO: {{ metadata?.exif_iso ?? "—" }}</li>
+                        <li><i class="ri-time-fill"></i> Shutter: {{ metadata?.exif_shutter ?? "—" }}</li>
+                        <li><i class="ri-camera-lens-fill"></i> Abertura: {{ metadata?.exif_aperture ?? "—" }}</li>
+                        <li><i class="ri-aspect-ratio-fill"></i> Dimensões: {{ metadata?.exif_width }}x{{ metadata?.exif_height }}</li>
+                        <li><i class="ri-calendar-fill"></i> Tirada em: {{ metadata?.exif_taken_at ?? "—" }}</li>
+                        <li><i class="ri-registered-fill"></i> Fabricante: {{ metadata?.exif_make ?? "—" }}</li>
+                        <li><i class="ri-camera-2-fill"></i> Modelo: {{ metadata?.exif_model ?? "—" }}</li>
+                        <li><i class="ri-binoculars-fill"></i> Focal: {{ metadata?.exif_focal_length ?? "—" }}</li>
+                        <li><i class="ri-flashlight-fill"></i> Flash: {{ metadata?.exif_flash ?? "—" }}</li>
+                        <li><i class="ri-contrast-fill"></i> Exposição: {{ metadata?.exif_exposure ?? "—" }}</li>
+                        <li><i class="ri-settings-3-fill"></i> Medição: {{ metadata?.exif_metering ?? "—" }}</li>
                     </ul>
                 </details>
             </div>

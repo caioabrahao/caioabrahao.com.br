@@ -16,7 +16,7 @@ const errorMsg = ref("");
 const totalFetched = ref()
 const fetchedFrom = ref("")
 
-const emit = defineEmits("image-selected")
+const emit = defineEmits(["image-selected"])
 const isSelected = ref(false)
 
 function selectImage(image){
