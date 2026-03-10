@@ -6,13 +6,15 @@ const selectedImage = ref({});
 const metadata = ref(null);
 const isLoadingMeta = ref(false);
 
+const childRef = ref(null);
+
 const fetchMetadata = async (image) => {
     if (!image) return;
 
     isLoadingMeta.value = true;
     metadata.value = null;
 
-    const res = await fetch(`/api/metadata?key=${image.filename}`);
+    const res = await fetch(`/api/metadata?key=${image.filename}`); 
     const data = await res.json();
 
     metadata.value = data.image;
@@ -24,15 +26,34 @@ watch(selectedImage, async (image) => {
     fetchMetadata(image);
 })
 
+const deleteImage = async (imageKey) => {
+    try{
+        const response = await fetch(`/api/delete?key=${imageKey}`, {
+            method: 'DELETE',
+        });
+        if (response.ok) {
+        // The deletion was successful (e.g., status 200 OK or 204 No Content)
+        console.log('Resource deleted successfully.');
+        childRef.value.fetchContents()
+        } else {
+        // Handle errors (e.g., resource not found, insufficient permissions)
+        console.error('Failed to delete the resource:', response.statusText);
+        }
+    } catch (error) {
+        // Handle network errors or other exceptions
+        console.error('An error occurred during the delete operation:', error);
+    }
+}
+
 
 
 </script>
 
 <template>
-    <section class="global-padding-x 2xl:px-[15%] pb-8 flex justify-between gap-4">
-        <div class="relative card-style-darker overflow-auto h-[85vh] scrollbar w-full" id="fileViewer">
-            <div class="fixed size-full pointer-events-none bottom-0 left-0 bg-linear-to-t from-surface from-5% to-surface/0 to-30%  z-2"></div>
-            <BucketObjectList @image-selected="selectedImage = $event"/>
+    <section class="global-padding-x 2xl:px-[15%] pb-8 flex h-[85vh] justify-between gap-4">
+        <div class="relative card-style-darker overflow-auto  scrollbar w-full" id="fileViewer">
+            <!-- <div class="absolute size-full pointer-events-none bottom-0 left-0 bg-linear-to-t from-surface from-5% to-surface/0 to-30%  z-2"></div> -->
+            <BucketObjectList ref="childRef" @image-selected="selectedImage = $event"/>
         </div>
 
         <div class="w-96 card-style-darker overflow-x-hidden overflow-y-auto scrollbar">
@@ -56,20 +77,24 @@ watch(selectedImage, async (image) => {
                 </div>
                 <details open>
                     <summary class="text-lg font-bold mt-4">EXIF Metadata</summary>
-                    <ul class="text-text-muted truncate">
-                        <li><i class="ri-sensor-fill"></i> ISO: {{ metadata?.exif_iso ?? "—" }}</li>
-                        <li><i class="ri-time-fill"></i> Shutter: {{ metadata?.exif_shutter ?? "—" }}</li>
-                        <li><i class="ri-camera-lens-fill"></i> Abertura: {{ metadata?.exif_aperture ?? "—" }}</li>
-                        <li><i class="ri-aspect-ratio-fill"></i> Dimensões: {{ metadata?.exif_width }}x{{ metadata?.exif_height }}</li>
-                        <li><i class="ri-calendar-fill"></i> Tirada em: {{ metadata?.exif_taken_at ?? "—" }}</li>
-                        <li><i class="ri-registered-fill"></i> Fabricante: {{ metadata?.exif_make ?? "—" }}</li>
-                        <li><i class="ri-camera-2-fill"></i> Modelo: {{ metadata?.exif_model ?? "—" }}</li>
-                        <li><i class="ri-binoculars-fill"></i> Focal: {{ metadata?.exif_focal_length ?? "—" }}</li>
-                        <li><i class="ri-flashlight-fill"></i> Flash: {{ metadata?.exif_flash ?? "—" }}</li>
-                        <li><i class="ri-contrast-fill"></i> Exposição: {{ metadata?.exif_exposure ?? "—" }}</li>
-                        <li><i class="ri-settings-3-fill"></i> Medição: {{ metadata?.exif_metering ?? "—" }}</li>
+                    <ul class="text-text-muted truncate text-lg">
+                        <li><i class="ri-sensor-fill"></i> ISO: <span class="text-text">{{ metadata?.exif_iso ?? "—" }}</span></li>
+                        <li><i class="ri-time-fill"></i> Shutter: <span class="text-text">{{ metadata?.exif_shutter ?? "—" }}</span></li>
+                        <li><i class="ri-camera-lens-fill"></i> Abertura: <span class="text-text">{{ metadata?.exif_aperture ?? "—" }}</span></li>
+                        <li><i class="ri-aspect-ratio-fill"></i> Dimensões: <span class="text-text">{{ metadata?.exif_width }}x{{ metadata?.exif_height }}</span></li>
+                        <li><i class="ri-calendar-fill"></i> Tirada em: <span class="text-text">{{ metadata?.exif_taken_at ?? "—" }}</span></li>
+                        <li><i class="ri-registered-fill"></i> Fabricante: <span class="text-text">{{ metadata?.exif_make ?? "—" }}</span></li>
+                        <li><i class="ri-camera-2-fill"></i> Modelo: <span class="text-text">{{ metadata?.exif_model ?? "—" }}</span></li>
+                        <li><i class="ri-binoculars-fill"></i> Focal: <span class="text-text">{{ metadata?.exif_focal_length ?? "—" }}</span></li>
+                        <li><i class="ri-flashlight-fill"></i> Flash: <span class="text-text">{{ metadata?.exif_flash ?? "—" }}</span></li>
+                        <li><i class="ri-contrast-fill"></i> Exposição: <span class="text-text">{{ metadata?.exif_exposure ?? "—" }}</span></li>
+                        <li><i class="ri-settings-3-fill"></i> Medição: <span class="text-text">{{ metadata?.exif_metering ?? "—" }}</span></li>
                     </ul>
                 </details>
+                <div class="flex gap-2 mt-8">
+                    <button class="btn-secondary flex-2">Download</button>
+                    <button @click="deleteImage(selectedImage.filename)" class="btn-primary bg-danger flex-2">Deletar</button>
+                </div>
             </div>
              
         </div>

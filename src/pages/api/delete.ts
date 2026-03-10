@@ -12,9 +12,13 @@ const s3 = new S3Client({
   },
 });
 
-export const deleteS3Object = async (bucketName:any, objectKey:any) => {
+const bucketParams = {
+  Bucket: R2_BUCKET_NAME, 
+};
+
+const deleteS3Object = async (objectKey:any) => {
   const params = {
-    Bucket: bucketName, // The name of your S3 bucket
+    Bucket: R2_BUCKET_NAME, // The name of your S3 bucket
     Key: objectKey,     // The full path/key of the object (e.g., "folder/filename.ext")
   };
 
@@ -25,5 +29,29 @@ export const deleteS3Object = async (bucketName:any, objectKey:any) => {
     // Note: A successful delete returns a 204 No Content response, even if the object didn't exist.
   } catch (err) {
     console.error("Error deleting object:", err);
+  }
+};
+
+export const DELETE: APIRoute = async ({params, request}) => {
+  const url = new URL(request.url);
+  const key = url.searchParams.get("key");
+
+  deleteS3Object(key);
+
+  if (!key) {
+    return new Response(JSON.stringify({ error: "Missing 'key' query parameter" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  try {
+    await deleteS3Object(key); // if sync, remove await
+    return new Response(null, { status: 204 });
+  } catch (error) {
+    return new Response(JSON.stringify({ error: "Failed to delete object" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 };

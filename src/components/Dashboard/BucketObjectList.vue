@@ -51,7 +51,10 @@ async function fetchContents (){
             errorMsg.value = error
             isLoading.value = false
 })
-}
+};
+defineExpose({
+  fetchContents
+});
 
 watch(bucketUpdated, () => {
   fetchContents() // refetch whenever the signal fires
@@ -73,6 +76,7 @@ onMounted(async () =>{
                 </div>
                 <p class="text-base mt-2 opacity-50">Successfully fetched {{ totalFetched }} items!</p>
             </div>
+
             <div class="flex gap-2">
                 <button class="btn-primary-sm" popovertarget="uploadModal"><i class="ri-upload-2-line"></i> Enviar Imagem</button>
             </div>
