@@ -23,11 +23,13 @@ const fetchMetadata = async (image) => {
     isLoadingMeta.value = false;
 };
 
-watch(selectedImage, async (image) => {
-    fetchMetadata(image);
-})
 
 let confirmation = 0; //must be 2 to call the DELETE api
+watch(selectedImage, async (image) => {
+    fetchMetadata(image);
+    confirmation = 0;
+    deleteConfirm.value = false
+})
 
 const deleteImage = async (imageKey) => {
     if(!imageKey){
@@ -86,9 +88,9 @@ const deleteImage = async (imageKey) => {
                     <li><i class="ri-gallery-upload-fill"></i> Enviada em: {{ selectedImage.lastModified }}</li>
                     <li>Tags:</li>
                 </ul>
-                <div class="flex gap-2 items-center h-16">
-                    <span class="border border-secondary p-2 flex place-content-center rounded-sm mt-2 text-secondary flex-7">Não Publicada</span>
-                    <span class="bg-accent text-bg flex place-content-center rounded-sm text-2xl flex-2"><i class="ri-send-plane-fill"></i></span>
+                <div class="flex gap-2 mt-4">
+                    <span class="border border-secondary p-2 flex place-content-center rounded-sm text-secondary flex-7">Não Publicada</span>
+                    <span class="bg-accent text-bg flex items-center justify-center rounded-sm text-2xl flex-2"><i class="ri-send-plane-fill"></i></span>
                 </div>
                 <details open>
                     <summary class="text-lg font-bold mt-4">EXIF Metadata</summary>
@@ -107,7 +109,7 @@ const deleteImage = async (imageKey) => {
                     </ul>
                 </details>
                 <div class="flex gap-2 mt-8">
-                    <button class="btn-secondary flex-2">Download</button>
+                    <a :href="selectedImage.url" :download="selectedImage.filename" rel="noopener" target="_blank" class="btn-secondary flex-2 text-center">Download</a>
                     <button @click="deleteImage(selectedImage.filename)" class="btn-primary bg-danger flex-2" :class="{'deleteConfirm' : deleteConfirm}">
                         <span v-if="deleteConfirm">Confirmar</span>
                         <span v-else>Deletar</span>
