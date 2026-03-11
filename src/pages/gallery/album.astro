@@ -1,0 +1,31 @@
+---
+import Layout from "../../layouts/Layout.astro"
+
+const highlightPhotos = [
+	'https://images.caioabrahao.com.br/highlights/photo-1.webp',
+	'https://images.caioabrahao.com.br/highlights/photo-2.webp',
+	'https://images.caioabrahao.com.br/highlights/photo-3.webp',
+	'https://images.caioabrahao.com.br/highlights/photo-4.webp',
+	'https://images.caioabrahao.com.br/highlights/photo-5.webp',
+	'https://images.caioabrahao.com.br/highlights/photo-6.webp',
+	'https://images.caioabrahao.com.br/highlights/photo-7.webp',
+	'https://images.caioabrahao.com.br/highlights/photo-8.webp',
+	'https://images.caioabrahao.com.br/highlights/photo-9.webp',
+]
+---
+
+<Layout>
+    <section>
+        <div class="flex flex-col justify-center min-h-48 global-padding-x border-b border-border-soft">
+            <h1 class="font-gunter text-3xl">Album Title</h1>
+            <p class="text-text-muted">This is an album description. In here i briefly talk about the album and project
+             so the viewer have a grasp of what it is about!</p>
+        </div>
+        <div class="global-padding-x grid grid-cols-5 py-8">
+            {highlightPhotos.map((photo, index) =>
+				<img class="aspect-square object-cover" src={photo} alt="highlight photo">
+			)}
+        </div>
+    </section>
+
+</Layout>
