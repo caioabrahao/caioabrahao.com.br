@@ -12,11 +12,7 @@ const s3 = new S3Client({
   },
 });
 
-const bucketParams = {
-  Bucket: R2_BUCKET_NAME, 
-};
-
-const deleteS3Object = async (objectKey:any) => {
+const deleteS3Object = async (objectKey:string) => {
   const params = {
     Bucket: R2_BUCKET_NAME, // The name of your S3 bucket
     Key: objectKey,     // The full path/key of the object (e.g., "folder/filename.ext")
@@ -32,11 +28,11 @@ const deleteS3Object = async (objectKey:any) => {
   }
 };
 
-export const DELETE: APIRoute = async ({params, request}) => {
+export const DELETE: APIRoute = async ({ request, locals }) => {
+  const db = locals.runtime.env.DB;
+
   const url = new URL(request.url);
   const key = url.searchParams.get("key");
-
-  deleteS3Object(key);
 
   if (!key) {
     return new Response(JSON.stringify({ error: "Missing 'key' query parameter" }), {
@@ -46,12 +42,11 @@ export const DELETE: APIRoute = async ({params, request}) => {
   }
 
   try {
-    await deleteS3Object(key); // if sync, remove await
+    await deleteS3Object(key);
+    await db.prepare(`DELETE FROM images WHERE key = ?`).bind(key).run();
     return new Response(null, { status: 204 });
-  } catch (error) {
-    return new Response(JSON.stringify({ error: "Failed to delete object" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+  } catch (err) {
+    console.error("Filed deleting object: ", err)
+    throw err;
   }
 };
