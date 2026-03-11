@@ -7,6 +7,7 @@ const metadata = ref(null);
 const isLoadingMeta = ref(false);
 
 const childRef = ref(null);
+const deleteConfirm = ref(false)
 
 const fetchMetadata = async (image) => {
     if (!image) return;
@@ -26,22 +27,36 @@ watch(selectedImage, async (image) => {
     fetchMetadata(image);
 })
 
+let confirmation = 0; //must be 2 to call the DELETE api
+
 const deleteImage = async (imageKey) => {
-    try{
-        const response = await fetch(`/api/delete?key=${imageKey}`, {
-            method: 'DELETE',
-        });
-        if (response.ok) {
-        // The deletion was successful (e.g., status 200 OK or 204 No Content)
-        console.log('Resource deleted successfully.');
-        childRef.value.fetchContents()
-        } else {
-        // Handle errors (e.g., resource not found, insufficient permissions)
-        console.error('Failed to delete the resource:', response.statusText);
-        }
-    } catch (error) {
-        // Handle network errors or other exceptions
-        console.error('An error occurred during the delete operation:', error);
+    if(!imageKey){
+        return console.error("No image selected!")
+    }
+    confirmation += 1;
+    if(confirmation === 1){
+    console.log(`(!) DELETION armed and ready to go for ${imageKey}`)
+    deleteConfirm.value = true
+    }
+    if(confirmation === 2){
+        try{
+            const response = await fetch(`/api/delete?key=${imageKey}`, {
+                method: 'DELETE',
+            });
+            if (response.ok) {
+            // The deletion was successful (e.g., status 200 OK or 204 No Content)
+            console.log(`Resource '${imageKey}' deleted successfully.`);
+            confirmation = 0;
+            deleteConfirm.value = false;
+            childRef.value.fetchContents();
+            } else {
+            // Handle errors (e.g., resource not found, insufficient permissions)
+            console.error('Failed to delete the resource:', response.statusText);
+            }
+        } catch (error) {
+            // Handle network errors or other exceptions
+            console.error('An error occurred during the delete operation:', error);
+            }
     }
 }
 
@@ -93,7 +108,10 @@ const deleteImage = async (imageKey) => {
                 </details>
                 <div class="flex gap-2 mt-8">
                     <button class="btn-secondary flex-2">Download</button>
-                    <button @click="deleteImage(selectedImage.filename)" class="btn-primary bg-danger flex-2">Deletar</button>
+                    <button @click="deleteImage(selectedImage.filename)" class="btn-primary bg-danger flex-2" :class="{'deleteConfirm' : deleteConfirm}">
+                        <span v-if="deleteConfirm">Confirmar</span>
+                        <span v-else>Deletar</span>
+                    </button>
                 </div>
             </div>
              
@@ -111,5 +129,9 @@ const deleteImage = async (imageKey) => {
     background-size: contain;
     background-repeat: no-repeat;
     
+}
+
+.deleteConfirm{
+    @apply outline-2 outline-red-900 outline-offset-2 bg-red-400
 }
 </style>

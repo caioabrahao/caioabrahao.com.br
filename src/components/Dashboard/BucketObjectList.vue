@@ -44,7 +44,7 @@ async function fetchContents (){
             fetchedFrom.value = data.requestMeta.bucketFrom
 
             isLoading.value = false
-            console.log(data)
+            console.log("Bucket Contents successfully fetched!")
         })
         .catch(error => {
             failedFetch.value = true
@@ -84,7 +84,7 @@ onMounted(async () =>{
         <p v-if="isLoading === true"><i class="ri-loader-5-line"></i> Images are loading...</p>
         <p class="text-danger" v-else-if="failedFetch === true">Something went wrong... <br>({{ errorMsg }})</p>
         <p v-else-if="!isLoading && images.length === 0">No images found! Maybe upload some...</p>
-        <ul v-else class="grid grid-cols-5 gap-2 list-none">
+        <ul v-else class="grid lg:grid-cols-5 grid-cols-2 gap-2 list-none">
             <li v-for="folder in folders" :key="folder.name">
                 <button @click="openFolder(folder.name)" class="card-style hover:bg-accent-muted transition-colors hover:cursor-pointer flex flex-col place-content-center w-full h-full aspect-3/4">
                     <i class="ri-folder-4-line text-3xl"></i> 
