@@ -80,8 +80,6 @@ const unpublish = async (image) => {
 })
 fetchMetadata(image);
 }
-
-
 </script>
 
 <template>

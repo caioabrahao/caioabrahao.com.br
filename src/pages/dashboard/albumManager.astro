@@ -1,0 +1,9 @@
+---
+import DashboardLayout from "../../layouts/DashboardLayout.astro"
+import AlbumManagerView from "../../components/Dashboard/views/AlbumManager.vue"
+import '../../styles/global.css'
+---
+
+<DashboardLayout>
+    <AlbumManagerView client:load/>
+</DashboardLayout>
