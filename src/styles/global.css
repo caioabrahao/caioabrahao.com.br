@@ -45,6 +45,21 @@
     scrollbar-color: var(--color-surface-soft) rgba(0, 0, 0, 0);
     scrollbar-width: thin;
   }
+  input[type="text"]{
+    @apply bg-surface-soft border border-border rounded-xs px-2 transition-colors
+    hover:border hover:border-accent-muted
+    active:outline-accent-soft
+    focus:outline focus:outline-accent
+  }
+  input[type="text"]::placeholder{
+    @apply text-text-muted opacity-50
+  }
+  select{
+    @apply bg-surface-soft px-2 rounded-xs
+    hover:outline hover:outline-accent-muted
+    active:outline-accent-soft
+    focus:outline focus:outline-accent box-border
+  }
 }
 
 @utility global-padding-x {
