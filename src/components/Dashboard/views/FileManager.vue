@@ -62,6 +62,23 @@ const deleteImage = async (imageKey) => {
     }
 }
 
+const publish = async (image) => {
+    fetch(`/api/publishPhoto?key=${image.filename}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ is_public: true })
+})
+fetchMetadata(image);
+}
+
+const unpublish = async (image) => {
+    fetch(`/api/publishPhoto?key=${image.filename}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ is_public: false })
+})
+fetchMetadata(image);
+}
 
 
 </script>
@@ -88,10 +105,14 @@ const deleteImage = async (imageKey) => {
                     <li><i class="ri-gallery-upload-fill"></i> Enviada em: {{ selectedImage.lastModified }}</li>
                     <li>Tags:</li>
                 </ul>
-                <div class="flex gap-2 mt-4">
-                    <span class="border border-secondary p-2 flex place-content-center rounded-sm text-secondary flex-7">Não Publicada</span>
-                    <span class="bg-accent text-bg flex items-center justify-center rounded-sm text-2xl flex-2"><i class="ri-send-plane-fill"></i></span>
+                <div v-if="metadata?.is_public === 1" class="flex gap-2 mt-4">
+                    <span class="border border-accent p-2 flex place-content-center rounded-sm text-accent flex-1">Publicada</span>
                 </div>
+                <div v-else class="flex gap-2 mt-4">
+                    <span class="border border-secondary p-2 flex place-content-center rounded-sm text-secondary flex-7">Não Publicada</span>
+                    <span @click="publish(selectedImage)" class="bg-accent cursor-pointer text-bg flex items-center justify-center rounded-sm text-2xl flex-2"><i class="ri-send-plane-fill"></i></span>
+                </div>
+                
                 <details open>
                     <summary class="text-lg font-bold mt-4">EXIF Metadata</summary>
                     <ul class="text-text-muted truncate text-lg">

@@ -41,6 +41,10 @@
    font-family: proxima-nova, sans-serif;
    @apply bg-bg text-text;
   }
+  html{
+    scrollbar-color: var(--color-surface-soft) rgba(0, 0, 0, 0);
+    scrollbar-width: thin;
+  }
 }
 
 @utility global-padding-x {

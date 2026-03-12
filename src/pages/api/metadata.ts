@@ -1,4 +1,4 @@
-//API TO GET AN IMAGE METADATA FROM THE D1 DATABASE
+//API TO READ AN IMAGE METADATA FROM THE D1 DATABASE
 import type { APIRoute } from "astro";
 
 export const GET: APIRoute = async ({ request, locals }) => {
@@ -29,3 +29,4 @@ export const GET: APIRoute = async ({ request, locals }) => {
     headers: { "Content-Type": "application/json" },
   });
 };
+
