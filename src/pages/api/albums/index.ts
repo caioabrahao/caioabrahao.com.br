@@ -39,3 +39,35 @@ export const POST: APIRoute = async ({ request, locals }) => {
         });
     }
 }
+
+//list ALL albums
+export const GET: APIRoute = async ({ locals, request }) => {
+    const db = locals.runtime.env.DB;
+
+    const url = new URL(request.url);
+    // const slug = url.searchParams.get("slug");
+    // const isPublic = url.searchParams.get("isPublic");
+
+
+	try{
+        const query = await db.prepare(`
+        SELECT * FROM albums ORDER BY created_at DESC
+        `).run()
+
+        if(query.results.length === 0){
+            console.warn("The Request went fine, but theres no albums! in the database!")
+        }
+
+        return new Response(JSON.stringify({ query }), {
+        headers: { "Content-Type": "application/json" },
+        });
+    } catch(err){
+        console.error("Fetch failed:", err);
+        return new Response(JSON.stringify({ error: "Failed to fetch album list!" }), {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+        });
+    }
+
+
+}
