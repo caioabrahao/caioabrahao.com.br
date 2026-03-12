@@ -14,6 +14,7 @@ cp .env.example .env
 4. Setup local database with
 ```bash
 npx wrangler d1 execute images-metadata --local --file=src/db/schema.sql
+npx wrangler d1 migrations apply DB
 ```
 5. To start the thing, just run:
 ```bash
