@@ -51,6 +51,7 @@ const deleteImage = async (imageKey) => {
             confirmation = 0;
             deleteConfirm.value = false;
             childRef.value.fetchContents();
+            selectedImage.value = {}
             } else {
             // Handle errors (e.g., resource not found, insufficient permissions)
             console.error('Failed to delete the resource:', response.statusText);
@@ -106,7 +107,8 @@ fetchMetadata(image);
                     <li>Tags:</li>
                 </ul>
                 <div v-if="metadata?.is_public === 1" class="flex gap-2 mt-4">
-                    <span class="border border-accent p-2 flex place-content-center rounded-sm text-accent flex-1">Publicada</span>
+                    <span class="border border-accent p-2 flex place-content-center rounded-sm text-accent flex-7">Publicada</span>
+                    <span @click="unpublish(selectedImage)" class="bg-secondary cursor-pointer text-bg flex items-center justify-center rounded-sm text-2xl flex-2"><i class="ri-eye-off-fill"></i></span>
                 </div>
                 <div v-else class="flex gap-2 mt-4">
                     <span class="border border-secondary p-2 flex place-content-center rounded-sm text-secondary flex-7">Não Publicada</span>
@@ -130,10 +132,10 @@ fetchMetadata(image);
                     </ul>
                 </details>
                 <div class="flex gap-2 mt-8">
-                    <a :href="selectedImage.url" :download="selectedImage.filename" rel="noopener" target="_blank" class="btn-secondary flex-2 text-center">Download</a>
-                    <button @click="deleteImage(selectedImage.filename)" class="btn-primary bg-danger flex-2" :class="{'deleteConfirm' : deleteConfirm}">
-                        <span v-if="deleteConfirm">Confirmar</span>
-                        <span v-else>Deletar</span>
+                    <a :href="selectedImage.url" :download="selectedImage.filename" rel="noopener" target="_blank" class="btn-secondary text-nowrap flex-2 text-center"><i class="ri-image-download-fill"></i> Download</a>
+                    <button @click="deleteImage(selectedImage.filename)" class="btn-primary bg-danger text-nowrap flex-2" :class="{'deleteConfirm' : deleteConfirm}">
+                        <span v-if="deleteConfirm"><i class="ri-error-warning-fill"></i> Confirmar</span>
+                        <span v-else><i class="ri-delete-bin-fill"></i> Deletar</span>
                     </button>
                 </div>
             </div>

@@ -13,7 +13,9 @@ const bucket = R2_BUCKET_NAME;
     <div class="flex items-center gap-4">
             <p class="font-gunter text-2xl">CRA</p>
             <h2 class="text-2xl font-warbler-display font-bold">{currentPage}</h2>
-            <p class="btn-soft 2xl:text-lg"><i class="ri-cloud-line"></i> Bucket: {bucket}</p>
+            <a class="btn-soft text-xs md:text-base" href="https://dash.cloudflare.com/0f18c3180ee3373a90b6982966f5fcb8/r2/default/buckets/photography-website" target="_blank" rel="noopener">
+                <i class="ri-cloud-line"></i> Bucket: {bucket}
+            </a>
     </div>
 
     <nav>
