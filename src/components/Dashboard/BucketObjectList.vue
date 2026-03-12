@@ -51,7 +51,7 @@ async function fetchContents (){
             failedFetch.value = true
             errorMsg.value = error
             isLoading.value = false
-})
+        })
 };
 defineExpose({
   fetchContents

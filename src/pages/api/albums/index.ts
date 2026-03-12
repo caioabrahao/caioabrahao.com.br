@@ -58,7 +58,7 @@ export const GET: APIRoute = async ({ locals, request }) => {
             console.warn("The Request went fine, but theres no albums! in the database!")
         }
 
-        return new Response(JSON.stringify({ query }), {
+        return new Response(JSON.stringify({ albums: query.results }), {
         headers: { "Content-Type": "application/json" },
         });
     } catch(err){

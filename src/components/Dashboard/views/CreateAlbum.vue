@@ -27,6 +27,10 @@ const sendPOST = async () => {
         formData.value.visibility = 1;
         console.log("Album created!", data.slug);
         status.value = "success"
+        
+        setTimeout(() => {
+            window.location.href = "/dashboard/albumManager";
+        }, 1000);
     } else {
         console.error("Failed:", data.error);
         status.value = "error"
