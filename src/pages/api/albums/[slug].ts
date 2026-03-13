@@ -12,7 +12,7 @@ export const GET: APIRoute = async ({ locals, params }: APIContext) => {
     SELECT * FROM albums WHERE slug = ?
     `).bind(slug).first()
 
-    if(albumQuery.length === 0){
+    if(albumQuery === null){
       return new Response(JSON.stringify({ error: `The album ${slug} does not exist!` }), {
       status: 404,
       headers: { "Content-Type": "application/json" },

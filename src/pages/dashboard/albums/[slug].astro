@@ -1,0 +1,10 @@
+---
+const { slug } = Astro.params;
+import DashboardLayout from "../../../layouts/DashboardLayout.astro";
+import SlugAlbumManager from "../../../components/Dashboard/views/slugAlbumManager.vue";
+
+---
+
+<DashboardLayout>
+    <SlugAlbumManager slug={slug} client:load/>
+</DashboardLayout>
