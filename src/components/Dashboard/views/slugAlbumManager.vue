@@ -30,7 +30,7 @@ onMounted(async () => {
 <template>
     
     <section class="relative global-padding-x min-h-[80vh] flex flex-col gap-4">
-        <div class="bg-bg absolute h-full w-full top-0 left-0 flex flex-col global-padding-x justify-center" v-if="failedLoad">
+        <div v-if="failedLoad" class="bg-bg absolute h-full w-full top-0 left-0 flex flex-col global-padding-x justify-center">
             <p class="font text-3xl text-text-muted">..... parece que esse</p>
             <p class="font-gunter text-8xl mb-8">Album não existe!</p>
             <a class="btn-primary w-fit" href="/dashboard/albums">Ver Albums que EXISTEM!</a>
@@ -41,12 +41,20 @@ onMounted(async () => {
             <p class="text-text-muted">{{ album.created_at }}</p>
         </div>
         <div class="gap-4 grid grid-cols-2 grid-rows-1 flex-1">
-            <div class="card-style">
-                <h2>Imagens do Album</h2>
+            <div class="card-style flex flex-col gap-4">
+                <h2 class="font-warbler-text text-2xl font-bold">Imagens do Album</h2>
+                <div>
+                    <p v-if="albumImages.length === 0" class="text-text-muted text-center">Sem Imagens no Album! <br>Segure e arraste para começar a adicionar</p>
+                    <ul v-else class="grid grid-cols-3 gap-2">
+                        <li v-for="image in albumImages" :key="image.filename">
+                            <img class="aspect-3/4 object-cover hover:drop-shadow-xl hover:drop-shadow-text" :src="image.url" :alt="image.filename"/>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="card-style-darker">
-                <h2>Todas as Imagens</h2>
-                <div >
+            <div class="card-style-darker flex flex-col gap-4">
+                <h2 class="font-warbler-text text-2xl font-bold">Todas as Imagens</h2>
+                <div>
                     <ul class="grid grid-cols-3 gap-2">
                         <li v-for="image in bucketImages" :key="image.filename">
                             <img class="aspect-3/4 object-cover hover:drop-shadow-xl hover:drop-shadow-text" :src="image.url" :alt="image.filename"/>

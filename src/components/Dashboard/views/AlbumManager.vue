@@ -27,10 +27,12 @@ onMounted(async () => {
             <p v-else-if="albumList.length === 0">Nenhuma Imagem Encontrada!</p>
             <ul class="flex gap-2" v-else>
                 <li v-for="album in albumList" :key="album.slug">
-                    <div class="border-border border p-4">
-                        <h4 class="font-warbler-text text-2xl">{{ album.title }}</h4>
-                        <p class="text-text-muted">{{ album.description }}</p>
-                    </div>
+                    <a :href="`/dashboard/albums/${album.slug}`">
+                        <div class="border-border border p-4">
+                            <h4 class="font-warbler-text text-2xl">{{ album.title }}</h4>
+                            <p class="text-text-muted">{{ album.description }}</p>
+                        </div>
+                    </a>
                 </li>
             </ul>
         </div>
