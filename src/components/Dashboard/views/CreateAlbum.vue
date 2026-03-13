@@ -29,7 +29,7 @@ const sendPOST = async () => {
         status.value = "success"
         
         setTimeout(() => {
-            window.location.href = "/dashboard/albumManager";
+            window.location.href = "/dashboard/albums";
         }, 1000);
     } else {
         console.error("Failed:", data.error);

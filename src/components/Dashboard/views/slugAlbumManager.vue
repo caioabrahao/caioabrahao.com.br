@@ -1,9 +1,9 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 const props = defineProps(["slug"])
-const album = ref({})       // album metadata
-const albumImages = ref([])   // images already in album
-const bucketImages = ref([])  // all available images
+const album = ref({})
+const albumImages = ref([])   
+const bucketImages = ref([])  
 
 const failedLoad = ref(false)
 
@@ -33,7 +33,7 @@ onMounted(async () => {
         <div class="bg-bg absolute h-full w-full top-0 left-0 flex flex-col global-padding-x justify-center" v-if="failedLoad">
             <p class="font text-3xl text-text-muted">..... parece que esse</p>
             <p class="font-gunter text-8xl mb-8">Album não existe!</p>
-            <a class="btn-primary w-fit" href="/dashboard/albumManager">Ver Albums que EXISTEM!</a>
+            <a class="btn-primary w-fit" href="/dashboard/albums">Ver Albums que EXISTEM!</a>
         </div>
         <div>
             <h1 class="font-gunter text-2xl"><span class="text-text-muted">Album: </span>{{ album.title }}</h1>

@@ -1,8 +1,6 @@
 import type { APIRoute } from "astro";
 import { slugify } from "../../../lib/slugify"
 
-
-
 export const POST: APIRoute = async ({ request, locals }) => {
     const db = locals.runtime.env.DB;
     const { title, description, visibility } = await request.json();
@@ -56,6 +54,10 @@ export const GET: APIRoute = async ({ locals, request }) => {
 
         if(query.results.length === 0){
             console.warn("The Request went fine, but theres no albums! in the database!")
+            return new Response(JSON.stringify({ albums: "No Albums Found!" }), {
+            status: 404,
+            headers: { "Content-Type": "application/json" },
+            });
         }
 
         return new Response(JSON.stringify({ albums: query.results }), {
